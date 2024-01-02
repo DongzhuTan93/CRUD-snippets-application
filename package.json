@@ -1,0 +1,41 @@
+{
+  "name": "assignment-b1-crud-snippets",
+  "version": "1.0.0",
+  "description": "assignment-b1-crud-snippets",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon --inspect -r dotenv/config src/server.js",
+    "lint": "npx eslint ./src || exit 0",
+    "lint:fix": "npx eslint ./src --fix || exit 0"
+  },
+  "contributors": [
+    "Dongzhu Tan <dt222ha@student.lnu.se>"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.lnu.se:1dv026/student/dt222ha/assignment-b1-crud-snippets.git"
+  },
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.6",
+    "csurf": "^1.11.0",
+    "ejs": "^3.1.8",
+    "express": "^4.18.2",
+    "express-ejs-layouts": "^2.5.1",
+    "express-session": "^1.17.3",
+    "helmet": "^6.0.0",
+    "http-errors": "^2.0.0",
+    "mongoose": "^6.7.0",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "@lnu/eslint-config": "^1.1.7",
+    "dotenv": "^16.0.3",
+    "nodemon": "^2.0.20"
+  }
+}

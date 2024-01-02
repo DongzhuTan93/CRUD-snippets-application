@@ -1,0 +1,19 @@
+<h1>Delete snippets </h1>
+<form class="row g-3" method="post" action="/snippets-app/snippets/<%= viewData?.id %>/delete">
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+  <input type="hidden" name="id" value="<%= viewData?.id %>" />
+  <div class="col-md-12" style="margin-top: 100px;">
+    <label class="form-label" for="descriptionInput">
+      Are you sure to delete this?
+    </label>
+    <input type="text" class="form-control" id="descriptionInput"
+      placeholder="Update snippets description here" value="<%= viewData?.description %>"
+      disabled />
+  </div>
+  <div class="col-12">
+    <button type="submit" class="btn btn-primary" autofocus="autofocus">Delete</button>
+  </div>
+  <div class="col-12">
+    <a href="/snippets-app/snippets/" class="btn btn-primary">Come back</a>
+  </div>
+</form>

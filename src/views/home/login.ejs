@@ -1,0 +1,17 @@
+<!-- Main jumbotron for a primary marketing message or call to action -->
+<link rel="stylesheet" type="text/css" href="public/css/style.css">
+<div class="jumbotron" >
+    <div class="container" style="margin-top: 150px;">
+      <% if (typeof user === 'undefined') { %>
+        <h1 class="display-3">
+          Welcome to our snippets!
+        </h1>
+        <form method="POST" action="/snippets-app/home/login">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <p><input type="text" name="usersname" placeholder="users name"></p>
+          <p><input type="password" name="userspassword" placeholder="At least 10 characters"></p>
+          <p><button type="submit"  class="btn btn-primary">Login</button></p>
+        </form>
+      <% } %>
+    </div>
+</div>

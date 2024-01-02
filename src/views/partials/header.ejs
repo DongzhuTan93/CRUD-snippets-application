@@ -1,0 +1,33 @@
+<header>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <a class="navbar-brand" href="#">Our snippets</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="/snippets-app">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/snippets-app/snippets/">List</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/snippets-app/snippets/create">Create snippets </a>
+          </li>
+          <% if (typeof user !== 'undefined') { %>
+          <li class="nav-item">
+            <form method="POST" action="/snippets-app/home/logout">
+              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+              <div class="col-12">
+                <button type="submit" class="btn btn-primary">Logout</button>
+              </div>
+            </form>
+          </li>
+          <% } %>
+        </ul>
+      </div>
+    </nav>
+  </header>
+  

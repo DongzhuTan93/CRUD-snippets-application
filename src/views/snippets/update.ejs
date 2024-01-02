@@ -1,0 +1,15 @@
+<h1>Update snippets </h1>
+<form class="row g-3" method="post" action="/snippets-app/snippets/<%= viewData?.id %>/update">
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+  <div class="col-md-12">
+    <label class="form-label" for="descriptionInput">
+      Description
+    </label>
+    <input type="text" class="form-control" id="descriptionInput" name="description"
+      placeholder="Update snippets description here" value="<%= viewData?.description %>" required="required"
+      autofocus="autofocus" />
+  </div>
+  <div class="col-12">
+    <button type="submit" class="btn btn-primary">Update</button>
+  </div>
+</form>
