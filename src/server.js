@@ -28,6 +28,7 @@ try {
   const app = express()
 
   // Set various HTTP headers to make the application little more secure (https://www.npmjs.com/package/helmet).
+  // Enhance security by setting various HTTP headers with Helmet. Helps mitigate risks like cross-site scripting (XSS) attacks.
   app.use(helmet())
 
   app.use(cookieparser())
@@ -55,20 +56,22 @@ try {
   app.use(express.static(join(directoryFullName, '..', 'public')))
 
   // Setup and use session middleware (https://github.com/expressjs/session)
+  // Configure session options for CSRF protection and session security.
   const sessionOptions = {
     name: process.env.SESSION_NAME, // Don't use default session cookie name.
     secret: process.env.SESSION_SECRET, // Change it!!! The secret is used to hash the session with HMAC.
-    resave: false, // Resave even if a request is not changing the session.
-    saveUninitialized: false, // Don't save a created but not modified session.
+    resave: false, //  Do not resave the session back to the session store if it was never modified during the request.
+    saveUninitialized: false, // Do not automatically create a session for requests that don't modify it.
     cookie: {
-      maxAge: 1000 * 60 * 60 * 24, // 1 day
-      sameSite: 'strict'
+      maxAge: 1000 * 60 * 60 * 24, // 1 day.
+      httpOnly: true, // Restricts access to the cookie from JavaScript, mitigating the risk of cross-site scripting (XSS) attacks.
+      sameSite: 'strict' // Only send the cookie on first-party requests for enhanced CSRF protection.
     }
   }
 
   if (app.get('env') === 'snippetion') {
-    app.set('trust proxy', 1) // trust first proxy
-    sessionOptions.cookie.secure = true // serve secure cookies
+    app.set('trust proxy', 1) // trust first proxy.
+    sessionOptions.cookie.secure = true // Ensures cookies are sent only over HTTPS connections.
   }
 
   app.use(session(sessionOptions))
@@ -83,7 +86,7 @@ try {
       delete req.session.flash
     }
 
-    // Set a global variable to make the CSRF token available to all views
+    // Set a global variable to make the CSRF token available to all views.
     res.locals.csrfToken = req.csrfToken()
 
     if (req.session.user) {
@@ -101,17 +104,25 @@ try {
 
   // Error handler.
   app.use(function (err, req, res, next) {
+    // 401 Unauthorized
+    if (err.status === 401) {
+      return res
+        .status(401)
+        .sendFile(join(directoryFullName, 'views', 'errors', '401.html'))
+    }
+
+    // 403 Forbidden.
+    if (err.status === 403) {
+      return res
+        .status(403)
+        .sendFile(join(directoryFullName, 'views', 'errors', '403.html'))
+    }
+
     // 404 Not Found.
     if (err.status === 404) {
       return res
         .status(404)
         .sendFile(join(directoryFullName, 'views', 'errors', '404.html'))
-    }
-
-    if (err.status === 403) {
-      return res
-        .status(403)
-        .sendFile(join(directoryFullName, 'views', 'errors', '403.html'))
     }
 
     // 500 Internal Server Error (in snippetion, all other errors send this response).

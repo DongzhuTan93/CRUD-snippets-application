@@ -5,13 +5,13 @@
         <h1 class="display-3">
           Welcome to our snippets!
         </h1>
-      <form method="POST" action="/snippets-app/home/register">
+      <form method="POST" action="/account/register">
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-        <p><input type="text" name="usersname" placeholder="users name"></p>
-        <p><input type="text" name="userspassword" placeholder="At least 10 characters"></p>
-        <p><button type="submit"  class="btn btn-primary">Register</button></p>
+          <p><input type="text" name="usersname" placeholder="users name"></p>
+          <p><input type="password" name="userspassword" placeholder="At least 10 characters"></p>
+          <p><button type="submit"  class="btn btn-primary">Register</button></p>
       </form>
-      <a href="/snippets-app/home/login">Already member? Click here to login</a>
+      <a href="/account/login">Already member? Click here to login</a>
       <% } %>
       <% if (typeof user !== 'undefined') { %>
         <h1 class="display-3">

@@ -18,7 +18,7 @@ export class HomeController {
    * @param {Function} next - Express next middleware function.
    */
   index (req, res, next) {
-    // console.log(req.session)
+    console.log(req.session)
     res.render('home/home-page', { flash: res.locals.flash })
   }
 }

@@ -6,12 +6,17 @@
         <h1 class="display-3">
           Welcome to our snippets!
         </h1>
-        <form method="POST" action="/snippets-app/home/login">
+        <form method="POST" action="/account/login">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-          <p><input type="text" name="usersname" placeholder="users name"></p>
-          <p><input type="password" name="userspassword" placeholder="At least 10 characters"></p>
-          <p><button type="submit"  class="btn btn-primary">Login</button></p>
+            <p><input type="text" name="usersname" placeholder="users name"></p>
+            <p><input type="password" name="userspassword" placeholder="At least 10 characters"></p>
+            <p><button type="submit"  class="btn btn-primary">Login</button></p>
         </form>
+      <% } %>
+      <% if (typeof user !== 'undefined') { %>
+        <h1 class="display-3">
+          Welcome  "<%= user.username %>" to our snippets!
+        </h1>
       <% } %>
     </div>
 </div>

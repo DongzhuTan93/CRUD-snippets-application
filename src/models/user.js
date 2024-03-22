@@ -1,7 +1,3 @@
-import mongoose from 'mongoose'
-import { createRequire } from 'module'
-const require = createRequire(import.meta.url)
-const bcrypt = require('bcryptjs')
 /**
  * Mongoose model User.
  *
@@ -9,13 +5,16 @@ const bcrypt = require('bcryptjs')
  * @version 2.0.0
  */
 
-// import bcrypt from 'bcrypt'
+import mongoose from 'mongoose'
+import { createRequire } from 'module'
+const require = createRequire(import.meta.url)
+const bcrypt = require('bcryptjs')
 
 // Create a schema.
 const schema = new mongoose.Schema({
   username: {
     type: String,
-    required: [true, 'Username is required.'],
+    required: [true, 'The username is required.'],
     unique: true,
     // - A valid username should start with an alphabet so, [A-Za-z].
     // - All other characters can be alphabets, numbers or an underscore so, [A-Za-z0-9_-].
@@ -27,7 +26,7 @@ const schema = new mongoose.Schema({
     type: String,
     minLength: [10, 'The password must be of minimum length 10 characters.'],
     maxLength: [256, 'The password must be of maximum length 256 characters.'],
-    required: [true, 'Password is required.']
+    required: [true, 'The password is required.']
   },
   permissionLevel: Number
 }, {
@@ -43,7 +42,7 @@ const schema = new mongoose.Schema({
       delete ret._id
       delete ret.__v
     },
-    virtuals: true // ensure virtual fields are serialized
+    virtuals: true // ensure virtual fields are serialized.
   }
 })
 

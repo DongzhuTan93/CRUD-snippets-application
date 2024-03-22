@@ -6,7 +6,6 @@
  */
 
 import { Snippet } from '../models/snippets.js'
-import createError from 'http-errors'
 
 /**
  * Encapsulates a controller.
@@ -37,16 +36,19 @@ export class SnippetsController {
    *
    * @param {object} req - Express request object.
    * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   * @returns {void} - No return value, calls next with an error if the user does not have permission to create the snippets.
    */
-  async create (req, res) {
+  async showCreateSnippetsForm (req, res, next) {
     try {
       if (!req?.session?.user?.userId) {
-        throw new Error('You must be logged in or register to create a new snippet!')
+        const error = new Error()
+        error.status = 404
+        return next(error)
       }
       res.render('snippets/create')
     } catch (error) {
-      req.session.flash = { type: 'danger', text: error.message }
-      res.redirect('/snippets-app')
+      next(error)
     }
   }
 
@@ -68,10 +70,10 @@ export class SnippetsController {
       await snippet.save()
 
       req.session.flash = { type: 'success', text: 'The snippet was created successfully.' }
-      res.redirect('/snippets-app/home/login')
+      res.redirect('/account/login')
     } catch (error) {
       req.session.flash = { type: 'danger', text: error.message }
-      res.redirect('.')
+      res.redirect('..')
     }
   }
 
@@ -80,26 +82,30 @@ export class SnippetsController {
    *
    * @param {object} req - Express request object.
    * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   * @returns {void} - No return value, calls next with an error if the user does not have permission to update the snippets.
    */
-  async update (req, res) {
+  async showUpdateSnippetsForm (req, res, next) {
     try {
       if (!req?.session?.user?.userId) {
-        throw new Error('You must be logged in or register to update snippet.')
+        const error = new Error()
+        error.status = 404
+        return next(error)
       }
 
       const snippet = await Snippet.findById(req.params.id)
       const loggedInUser = await req.session.user
 
       if (snippet.creatorId !== loggedInUser.userId) {
-        throw new Error('You can not update another peoples snippet.')
+        const error = new Error()
+        error.status = 403
+        return next(error)
       }
 
       res.render('snippets/update', { viewData: snippet.toObject() })
     } catch (error) {
-      const err = createError(403)
-      err.cause = error
       req.session.flash = { type: 'danger', text: error.message }
-      res.redirect('..')
+      res.redirect('.')
     }
   }
 
@@ -108,14 +114,18 @@ export class SnippetsController {
    *
    * @param {object} req - Express request object.
    * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   * @returns {void} - No return value, calls next with an error if the user does not have permission to update the snippets.
    */
-  async updateSnippet (req, res) {
+  async updateSnippet (req, res, next) {
     try {
       const snippet = await Snippet.findById(req.params.id)
 
       const loggedInUser = await req.session.user
       if (!loggedInUser) {
-        throw new Error('You must be logged in or register to update a new snippet.')
+        const error = new Error()
+        error.status = 404
+        return next(error)
       }
 
       if (snippet) {
@@ -130,8 +140,8 @@ export class SnippetsController {
           text: 'The snippet you attempted to update was removed by another user after you got the original values.'
         }
       }
-      res.redirect('/snippets-app')
 
+      res.redirect('/')
       await snippet.save()
     } catch (error) {
       req.session.flash = { type: 'danger', text: error.message }
@@ -144,27 +154,31 @@ export class SnippetsController {
    *
    * @param {object} req - Express request object.
    * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   * @returns {void} - No return value, calls next with an error if the user does not have permission to delete the snippets.
    */
-  async delete (req, res) {
+  async showDeleteSnippetsForm (req, res, next) {
     try {
       const snippet = await Snippet.findById(req.params.id)
 
       const loggedInUser = await req.session.user
 
       if (!loggedInUser) {
-        throw new Error('You must be logged in or register to delete a snippet.')
+        const error = new Error()
+        error.status = 404
+        return next(error)
       }
 
       if (loggedInUser.userId !== snippet.creatorId) {
-        const error = new Error('Forbidden')
+        const error = new Error()
         error.status = 403
-        throw error
+        return next(error)
       }
 
       res.render('snippets/delete', { viewData: snippet.toObject() })
     } catch (error) {
       req.session.flash = { type: 'danger', text: error.message }
-      res.redirect('..')
+      res.redirect('.')
     }
   }
 
@@ -173,9 +187,26 @@ export class SnippetsController {
    *
    * @param {object} req - Express request object.
    * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   * @returns {void} - No return value, calls next with an error if the user does not have permission to delete the snippets.
    */
-  async deleteSnippet (req, res) {
+  async deleteSnippet (req, res, next) {
     try {
+      const snippet = await Snippet.findById(req.params.id)
+      const loggedInUser = await req.session.user
+
+      if (!loggedInUser) {
+        const error = new Error()
+        error.status = 404
+        return next(error)
+      }
+
+      if (loggedInUser.userId !== snippet.creatorId) {
+        const error = new Error()
+        error.status = 403
+        return next(error)
+      }
+
       await Snippet.findByIdAndDelete(req.body.id)
 
       req.session.flash = { type: 'success', text: 'The snippet was deleted successfully.' }

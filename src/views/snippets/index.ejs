@@ -11,18 +11,18 @@
       <% for (const snippets of viewData.snippets) { %>
         <tr>
           <td class="w-100 <% if (snippets.done) { %> text-muted <% } %>">
-            <%= snippets .description %>
+            <%- snippets.description.replace(/\n/g, '<br>') %>
           </td>
           <td class="text-nowrap">
-            <a href="/snippets-app/snippets/<%= snippets.id %>/update">Update</a>
-            <a href="/snippets-app/snippets/<%= snippets.id %>/delete">Delete</a>
+            <a href="/snippets/<%= snippets.id %>/update">Update</a>
+            <a href="/snippets/<%= snippets.id %>/delete">Delete</a>
           </td>
         </tr>
       <% } %>
     <% } else { %>
       <tr>
         <td colspan="3" class="text-center text-danger">
-          There are no snippets to display
+          There are no snippets to display!
         </td>
       </tr>
     <% } %>

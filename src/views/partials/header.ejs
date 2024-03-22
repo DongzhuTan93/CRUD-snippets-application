@@ -8,17 +8,17 @@
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
           <li class="nav-item">
-            <a class="nav-link" href="/snippets-app">Home</a>
+            <a class="nav-link" href="/">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/snippets-app/snippets/">List</a>
+            <a class="nav-link" href="/snippets/">List</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/snippets-app/snippets/create">Create snippets </a>
+            <a class="nav-link" href="/snippets/create">Create snippets </a>
           </li>
           <% if (typeof user !== 'undefined') { %>
           <li class="nav-item">
-            <form method="POST" action="/snippets-app/home/logout">
+            <form method="POST" action="/account/logout">
               <input type="hidden" name="_csrf" value="<%= csrfToken %>">
               <div class="col-12">
                 <button type="submit" class="btn btn-primary">Logout</button>

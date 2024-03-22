@@ -14,7 +14,7 @@ export const router = express.Router()
 
 router.use('/', homeRouter)
 router.use('/snippets', snippetsRouter)
-router.use('/home', accountRouter)
+router.use('/account', accountRouter)
 
 router.use('*', (req, res, next) => {
   const error = new Error('Not Found')

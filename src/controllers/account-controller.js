@@ -17,11 +17,11 @@ export class AccountController {
    *
    * @param {object} req - Express request object.
    * @param {object} res - Express response object.
-   * @param {Function} next - Express next middleware function.
    */
-  async login (req, res, next) {
+  async login (req, res) {
     try {
       const user = await User.authenticate(req.body.usersname, req.body.userspassword)
+
       req.session.user = {
         username: req.body.usersname,
         password: req.body.userspassword,
@@ -30,13 +30,28 @@ export class AccountController {
       }
 
       req.session.flash = { type: 'success', text: 'The user login successfully.' }
-      res.redirect('/snippets-app', { flash: res.locals.flash })
+      res.redirect('/', { flash: res.locals.flash })
     } catch (error) {
       // Authentication failed.
       const err = createError(401)
       err.cause = error
       req.session.flash = { type: 'danger', text: error.message }
-      res.redirect('/snippets-app/home/login')
+      res.redirect('/account/login')
+    }
+  }
+
+  /**
+   * Show login form.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   */
+  async showLogin (req, res) {
+    try {
+      res.render('home/login', { flash: res.locals.flash })
+    } catch (error) {
+      req.session.flash = { type: 'danger', text: error.message }
+      res.redirect('/')
     }
   }
 
@@ -45,16 +60,17 @@ export class AccountController {
    *
    * @param {object} req - Express request object.
    * @param {object} res - Express response object.
-   * @param {Function} next - Express next middleware function.
+   * @returns {Promise<void>} - A promise that resolves when the registration process is complete.
    */
-  async register (req, res, next) {
+  async register (req, res) {
     try {
       const userExists = await User.findOne({ username: req.body.usersname })
+
       if (userExists) {
         req.session.flash = { type: 'danger', text: 'The user already exists. Please choose another username.' }
-        return res.redirect('/snippets-app')
+        return res.redirect('/')
       }
-      // I got inspiration from chatGPT
+      // I got inspiration from chatGPT.
 
       const user = new User({
         username: req.body.usersname,
@@ -73,11 +89,12 @@ export class AccountController {
 
       console.log(req.session)
 
-      req.session.flash = { type: 'success', text: 'The user was created successfully.' }
-      res.redirect('/snippets-app/home/login', { flash: res.locals.flash })
+      req.session.user = null
+      req.session.flash = { type: 'success', text: 'The user was created successfully! Please use your credentials to login.' }
+      res.redirect('/account/login')
     } catch (error) {
       req.session.flash = { type: 'danger', text: error.message }
-      res.redirect('/snippets-app')
+      res.redirect('/account/login')
     }
   }
 
@@ -86,31 +103,14 @@ export class AccountController {
    *
    * @param {object} req - Express request object.
    * @param {object} res - Express response object.
-   * @param {Function} next - Express next middleware function.
    */
-  async logout (req, res, next) {
+  async logout (req, res) {
     try {
       if (req?.session?.user) {
         req.session.user = null
         req.session.flash = { type: 'success', text: 'The user is logged out!' }
-        res.redirect('/snippets-app')
+        res.redirect('/')
       }
-    } catch (error) {
-      req.session.flash = { type: 'danger', text: error.message }
-      res.redirect('.')
-    }
-  }
-
-  /**
-   * Logs out a user.
-   *
-   * @param {object} req - Express request object.
-   * @param {object} res - Express response object.
-   * @param {Function} next - Express next middleware function.
-   */
-  async showHomeLogin (req, res, next) {
-    try {
-      res.render('home/login', { flash: res.locals.flash })
     } catch (error) {
       req.session.flash = { type: 'danger', text: error.message }
       res.redirect('.')

@@ -16,11 +16,11 @@ const controller = new SnippetsController()
 
 router.get('/', (req, res, next) => controller.index(req, res, next))
 
-router.get('/create', (req, res, next) => controller.create(req, res, next))
+router.get('/create', (req, res, next) => controller.showCreateSnippetsForm(req, res, next))
 router.post('/create', (req, res, next) => controller.createSnippet(req, res, next))
 
-router.get('/:id/update', (req, res, next) => controller.update(req, res, next))
+router.get('/:id/update', (req, res, next) => controller.showUpdateSnippetsForm(req, res, next))
 router.post('/:id/update', (req, res, next) => controller.updateSnippet(req, res, next))
 
-router.get('/:id/delete', (req, res, next) => controller.delete(req, res, next))
+router.get('/:id/delete', (req, res, next) => controller.showDeleteSnippetsForm(req, res, next))
 router.post('/:id/delete', (req, res, next) => controller.deleteSnippet(req, res, next))
