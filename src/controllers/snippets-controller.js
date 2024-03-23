@@ -42,13 +42,12 @@ export class SnippetsController {
   async showCreateSnippetsForm (req, res, next) {
     try {
       if (!req?.session?.user?.userId) {
-        const error = new Error()
-        error.status = 404
-        return next(error)
+        throw new Error('You must be logged in or register to create a new snippet!')
       }
       res.render('snippets/create')
     } catch (error) {
-      next(error)
+      req.session.flash = { type: 'danger', text: error.message }
+      res.redirect('/')
     }
   }
 
@@ -88,24 +87,20 @@ export class SnippetsController {
   async showUpdateSnippetsForm (req, res, next) {
     try {
       if (!req?.session?.user?.userId) {
-        const error = new Error()
-        error.status = 404
-        return next(error)
+        throw new Error('You must be logged in or register to update snippet.')
       }
 
       const snippet = await Snippet.findById(req.params.id)
       const loggedInUser = await req.session.user
 
       if (snippet.creatorId !== loggedInUser.userId) {
-        const error = new Error()
-        error.status = 403
-        return next(error)
+        throw new Error('You can not update another peoples snippet.')
       }
 
       res.render('snippets/update', { viewData: snippet.toObject() })
     } catch (error) {
       req.session.flash = { type: 'danger', text: error.message }
-      res.redirect('.')
+      res.redirect('/snippets')
     }
   }
 
@@ -123,9 +118,7 @@ export class SnippetsController {
 
       const loggedInUser = await req.session.user
       if (!loggedInUser) {
-        const error = new Error()
-        error.status = 404
-        return next(error)
+        throw new Error('You must be logged in or register to update a new snippet.')
       }
 
       if (snippet) {
@@ -154,31 +147,26 @@ export class SnippetsController {
    *
    * @param {object} req - Express request object.
    * @param {object} res - Express response object.
-   * @param {Function} next - Express next middleware function.
    * @returns {void} - No return value, calls next with an error if the user does not have permission to delete the snippets.
    */
-  async showDeleteSnippetsForm (req, res, next) {
+  async showDeleteSnippetsForm (req, res) {
     try {
       const snippet = await Snippet.findById(req.params.id)
 
       const loggedInUser = await req.session.user
 
       if (!loggedInUser) {
-        const error = new Error()
-        error.status = 404
-        return next(error)
+        throw new Error('You must be logged in or register to delete a snippet.')
       }
 
       if (loggedInUser.userId !== snippet.creatorId) {
-        const error = new Error()
-        error.status = 403
-        return next(error)
+        throw new Error('You can not delete another pepoles snippet.')
       }
 
       res.render('snippets/delete', { viewData: snippet.toObject() })
     } catch (error) {
       req.session.flash = { type: 'danger', text: error.message }
-      res.redirect('.')
+      res.redirect('/snippets')
     }
   }
 
@@ -196,15 +184,11 @@ export class SnippetsController {
       const loggedInUser = await req.session.user
 
       if (!loggedInUser) {
-        const error = new Error()
-        error.status = 404
-        return next(error)
+        throw new Error('You must be logged in or register to delete a snippet.')
       }
 
       if (loggedInUser.userId !== snippet.creatorId) {
-        const error = new Error()
-        error.status = 403
-        return next(error)
+        throw new Error('You can not delete another pepoles snippet.')
       }
 
       await Snippet.findByIdAndDelete(req.body.id)
