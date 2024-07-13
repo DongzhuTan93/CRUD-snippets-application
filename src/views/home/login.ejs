@@ -1,22 +1,32 @@
-<!-- Main jumbotron for a primary marketing message or call to action -->
-<link rel="stylesheet" type="text/css" href="public/css/style.css">
-<div class="jumbotron" >
-    <div class="container" style="margin-top: 150px;">
-      <% if (typeof user === 'undefined') { %>
-        <h1 class="display-3">
-          Welcome to our snippets!
-        </h1>
-        <form method="POST" action="/account/login">
-          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-            <p><input type="text" name="usersname" placeholder="users name"></p>
-            <p><input type="password" name="userspassword" placeholder="At least 10 characters"></p>
-            <p><button type="submit"  class="btn btn-primary">Login</button></p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+<body>
+    <div class="background-container"></div>
+    <div class="login-container">
+        <p class="have-account">Have an account?</p>
+        <h1>Login</h1>
+        <form method="POST" action="/account/Login">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <div class="input-group">
+                <input type="text" id="username" name="username" placeholder="Username">
+            </div>
+            <div class="input-group">
+                <input type="password" id="password" name="password" placeholder="Password">
+            </div>
+            <button type="submit" class="login-btn">Login</button>
+            <div class="form-footer">
+                <label class="remember-me">
+                    <input type="checkbox" name="remember">
+                    <span>Remember Me</span>
+                </label>
+                <a href="#" class="forgot-password">Forgot password?</a>
+            </div>
         </form>
-      <% } %>
-      <% if (typeof user !== 'undefined') { %>
-        <h1 class="display-3">
-          Welcome  "<%= user.username %>" to our snippets!
-        </h1>
-      <% } %>
     </div>
-</div>
+</body>
+</html>
