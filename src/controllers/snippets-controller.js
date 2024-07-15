@@ -69,7 +69,7 @@ export class SnippetsController {
       await snippet.save()
 
       req.session.flash = { type: 'success', text: 'The snippet was created successfully.' }
-      res.redirect('/account/login')
+      res.redirect('/snippets')
     } catch (error) {
       req.session.flash = { type: 'danger', text: error.message }
       res.redirect('..')
@@ -134,7 +134,7 @@ export class SnippetsController {
         }
       }
 
-      res.redirect('/')
+      res.redirect('/snippets')
       await snippet.save()
     } catch (error) {
       req.session.flash = { type: 'danger', text: error.message }

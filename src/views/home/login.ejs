@@ -6,17 +6,18 @@
     <link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 <body>
-    <div class="background-container"></div>
+    <% if (typeof user === 'undefined') { %>
+    <div class="content-wrapper">
     <div class="login-container">
         <p class="have-account">Have an account?</p>
         <h1>Login</h1>
         <form method="POST" action="/account/Login">
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <div class="input-group">
-                <input type="text" id="username" name="username" placeholder="Username">
+                <input type="text" id="username" name="usersname" placeholder="Username">
             </div>
             <div class="input-group">
-                <input type="password" id="password" name="password" placeholder="Password">
+                <input type="password" id="password" name="userspassword" placeholder="Password">
             </div>
             <button type="submit" class="login-btn">Login</button>
             <div class="form-footer">
@@ -28,5 +29,12 @@
             </div>
         </form>
     </div>
+  </div>
+  <% } %>
+      <% if (typeof user !== 'undefined') { %>
+        <h2 >
+          Welcome  "<%= user.username %>" to our snippets!
+        </h2>
+      <% } %>
 </body>
 </html>

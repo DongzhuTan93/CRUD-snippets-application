@@ -64,37 +64,48 @@ export class AccountController {
    */
   async register (req, res) {
     try {
-      const userExists = await User.findOne({ username: req.body.usersname })
+      console.log(req.body)
+      const { username, password } = req.body
+
+      // Check for empty input
+      if (!username || !password) {
+        req.session.flash = { type: 'danger', text: 'Username and password are required.' }
+        return res.redirect('/')
+      }
+
+      // Check if the user already exists
+      const userExists = await User.findOne({ username })
 
       if (userExists) {
         req.session.flash = { type: 'danger', text: 'The user already exists. Please choose another username.' }
         return res.redirect('/')
       }
-      // I got inspiration from chatGPT.
 
+      // Create new user
       const user = new User({
-        username: req.body.usersname,
-        password: req.body.userspassword
-
+        username,
+        password
       })
 
       await user.save()
 
+      // Set session user
       req.session.user = {
-        username: req.body.usersname,
-        password: req.body.userspassword,
+        username,
+        password,
         permissionLevel: user.permissionLevel,
         userId: user.id
       }
 
       console.log(req.session)
 
+      // Clear session user and set success message
       req.session.user = null
       req.session.flash = { type: 'success', text: 'The user was created successfully! Please use your credentials to login.' }
       res.redirect('/account/login')
     } catch (error) {
       req.session.flash = { type: 'danger', text: error.message }
-      res.redirect('/account/login')
+      res.redirect('/')
     }
   }
 
