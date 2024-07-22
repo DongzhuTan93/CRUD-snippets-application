@@ -87,7 +87,7 @@ export class SnippetsController {
   async showUpdateSnippetsForm (req, res, next) {
     try {
       if (!req?.session?.user?.userId) {
-        throw new Error('You must be logged in or register to update snippet.')
+        throw new Error('Come back to the home page to login or register to update a new snippet.')
       }
 
       const snippet = await Snippet.findById(req.params.id)
@@ -118,7 +118,7 @@ export class SnippetsController {
 
       const loggedInUser = await req.session.user
       if (!loggedInUser) {
-        throw new Error('You must be logged in or register to update a new snippet.')
+        throw new Error('Come back to the home page to login or register to update a new snippet.')
       }
 
       if (snippet) {
@@ -156,7 +156,7 @@ export class SnippetsController {
       const loggedInUser = await req.session.user
 
       if (!loggedInUser) {
-        throw new Error('You must be logged in or register to delete a snippet.')
+        throw new Error('Come back to the home page to login or register to delete a snippet.')
       }
 
       if (loggedInUser.userId !== snippet.creatorId) {
@@ -184,7 +184,7 @@ export class SnippetsController {
       const loggedInUser = await req.session.user
 
       if (!loggedInUser) {
-        throw new Error('You must be logged in or register to delete a snippet.')
+        throw new Error('Come back to the home page to login or register to delete a snippet.')
       }
 
       if (loggedInUser.userId !== snippet.creatorId) {

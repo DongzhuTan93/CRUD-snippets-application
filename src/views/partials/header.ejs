@@ -7,10 +7,10 @@
       <li class="nav-item"><a href="/snippets/create" class="nav-link">Create snippets</a></li>
       <% if (typeof user !== 'undefined') { %>
         <li class="nav-item">
-          <form method="POST" action="/account/logout" style="display: inline;">
+          <form method="POST" action="/account/logout" >
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <a href="/" class="btn btn-info btn-lg">
-              <button class="glyphicon glyphicon-log-out" type="submit">Log out</button>
+              <button type="submit">Log out</button>
             </a>
           </form>
         </li>

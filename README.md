@@ -1,36 +1,47 @@
-# Assignment B1 - CRUD Snippets
+## Introduction to the CRUD Application
 
-In this assignment, you will create a web application to manage code [snippets](https://en.wikipedia.org/wiki/Snippet_(programming)). The web application will use the Node.js platform, Express as the application framework, and Mongoose as the object data modeling (ODM) library for MongoDB.
+This web application is built using Node.js with Express as the framework and Mongoose as the Object Data Modeling (ODM) library, providing a robust platform for data persistence. The source code is organized into several modular components to ensure maintainability and scalability.
 
-You must use the repository created for you and this assignment and make continuous commits so it is possible to follow the web application's creation. Make sure that no more files than necessary are committed to the repository. (#6)
+### Features and Functionality
 
-To announce that you have completed the assignment, you must make a merge request of your assignment at its repository on GitLab.
+1. **User Authentication and Authorization**
+   - Users can register and log in to the application by providing a unique username and a password.
+   - Passwords are securely hashed using the `bcrypt` library to prevent unauthorized recovery.
+   - Once logged in, users can also log out of the application.
+   - The application distinguishes between anonymous and authenticated users through basic authentication and authorization mechanisms. Session management is handled on the server side using the [express-session](https://www.npmjs.com/package/express-session) package.
 
-## The web application
+2. **CRUD Operations**
+   - The application supports full CRUD (Create, Read, Update, Delete) functionality for code snippets.
+   - Anonymous users can view snippets, while authenticated users can create, edit, and delete their own snippets.
+   - Only the owner or creator of a snippet can edit or delete it.
+   - The application supports multiline text, allowing users to handle real code snippets rather than just single-line text entries.
 
-The web application must be a Node.js application that uses Express as the application framework and Mongoose as the ODM to create a web application that can store data persistently. You must follow the course's coding standard. You must split your source code into several modules. Of course, you need to document and comment on the source code. (#5, #1, #4)
+3. **User Notifications and Error Handling**
+   - To enhance usability, the application uses flash messages to keep users informed about their actions and the current state of the application.
+   - HTTP status codes are used to communicate various states:
+     - **404 (Not Found):** When a user requests a non-existent resource or a resource requiring authentication.
+     - **403 (Forbidden):** When an authenticated user lacks permission to access a requested resource.
+     - **500 (Internal Server Error):** Used sparingly, only for server-side errors.
 
-After cloning the repository with the application's source code and running the `npm install` command, it must be easy to lint the source code and run the application. Therefore, add the script start and lint to the "scripts" field in the package.json file. (#3)
+4. **Security Measures**
+   - To protect against common web vulnerabilities, the application utilizes `helmet()` to enhance security by setting various HTTP headers.
 
-A MongoDB database must store the web application's data. You are free to use [MongoDB as a Docker container](https://hub.docker.com/_/mongo) or a cloud-hosted MongoDB, for instance, [MongoDB Atlas](https://www.mongodb.com/cloud/atlas). (#7)
+The application is designed to be intuitive and user-friendly, ensuring a seamless experience for managing and interacting with code snippets.
 
-Users must be able to register and log into the application after entering a username and a password. The username must be unique to the application, and the password must not be recoverable. A logged-in user must be able to log out of the application. (#13, #14, #15)
+***
+### The home page of the application:
+ ![Home Page](public/image/home-page-readme.png)
 
-For the application to differentiate between an anonymous and authenticated user, there must be support for some basic authentication and authorization. You may only use session storage on the server side, using the [express-session](https://www.npmjs.com/package/express-session) package to implement authentication and authorization. __You must not use any packages, such as Passport, etc., to authenticate or authorize.__ (#16)
+***
 
-The web application must have full CRUD functionality regarding snippets, whereby users must create, read, update, and delete snippets. Anonymous users should only be able to view snippets. In addition to viewing snippets, authenticated users must create, edit, and delete them. __No one but the owner or creator of a snippet must be able to edit and delete the said snippet.__ When creating and viewing snippets, __the application must support multiline text__, enabling the logged-on user to write real code snippets, not just one-line texts. (#8, #9, #10, #11, #12)
+### Page after successful login:
+![After login Page](public/image/after-login-readme.png)
 
-The application should be easy to use and understand, so it should notify the user of what is happening, such as flash messages. Do not invite users to make mistakes. Do not include UI options in the web applications that the user does not have permission to do. (#18)
+***
 
-The application must send an HTTP status code 404 (Not Found) when a user requests a non-existent resource or a resource that requires authentication. When an authenticated user does not have permission to access a requested resource, the application must send an HTTP status code 403 (Forbidden). Only send the HTTP status code 500 (Internal Server Error) when necessary. (#10, #11, #12)
+### Display all created snippets page:
+![After login Page](public/image/all-snippets-readme.png)
 
-As far as possible, protect the application from vulnerable attacks. (#19)
+***
 
-You must deploy the application on your given server in CSCloud. (#17)
-
-### Extra features [optional]
-
-Feel free to add functionality to the application and get an extra plus on the assignment. Some examples of this could be:
-
-- Add support for tagging each snippet with one or more tags.
-- Add support for showing snippets belonging to one tag or/and one user.
+### Demo application URL: **https://crud.dongzhutan.com/**

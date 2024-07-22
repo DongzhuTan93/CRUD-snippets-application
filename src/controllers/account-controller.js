@@ -29,7 +29,7 @@ export class AccountController {
         userId: user.id
       }
 
-      req.session.flash = { type: 'success', text: 'The user login successfully.' }
+      req.session.flash = { type: 'success', text: 'The user login successful!' }
       res.redirect('/', { flash: res.locals.flash })
     } catch (error) {
       // Authentication failed.
@@ -119,7 +119,7 @@ export class AccountController {
     try {
       if (req?.session?.user) {
         req.session.user = null
-        req.session.flash = { type: 'success', text: 'The user is logged out!' }
+        req.session.flash = { type: 'success', text: 'The user logged out successful!' }
         res.redirect('/')
       }
     } catch (error) {
