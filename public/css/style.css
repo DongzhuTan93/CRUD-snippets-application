@@ -1,10 +1,15 @@
+main, body {
+  height: 100%;
+  margin: 0;
+}
+
 body {
   font-family: Arial, sans-serif;
   background: url("../image/background-home.jpg") no-repeat center center;
   background-size: cover;
-  z-index: -1;
-  width: 100%;
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 .content-wrapper {
@@ -12,7 +17,24 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  flex-grow: 1; /* Ensure the main content area takes up available space */
+}
 
+.listSnippets-container {
+  position:relative;
+  justify-content: center;
+  align-items: center;
+  margin-top: 150px;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(30px);
+  padding: 20px;
+  border-radius: 10px;
+  width: 700px;
+  max-width: 70%;
+  color: white;
+  margin-bottom: 20px;
+  opacity: 0;
+  animation: fadeIn 1s ease-in-out forwards; /* 1 seconds duration, ease-in-out timing function, forwards to retain final state */
 }
 
 .navbar {
@@ -98,13 +120,12 @@ body {
   position:relative;
   justify-content: center;
   align-items: center;
-  margin-top: 150px;
   background: rgba(255, 255, 255, 0.5);
   backdrop-filter: blur(30px);
   padding: 20px;
   border-radius: 10px;
   width: 700px;
-  max-width: 70%;
+  max-width: 60%;
   color: white;
   margin-bottom: 20px;
   opacity: 0;
@@ -185,7 +206,7 @@ input::placeholder {
   border-radius: 30px;
   font-size: 16px;
   cursor: pointer;
-  font-size: x-large;
+  font-size: large;
   font-weight: bold;
 }
 
@@ -201,8 +222,6 @@ input::placeholder {
   margin-top: 15px;
   font-size: 12px;
 }
-
-
 
 .remember-me {
   display: flex;
@@ -229,9 +248,8 @@ input::placeholder {
   margin-top: 150px;
 }
 
-h1 {
-  margin-bottom: 20px;
-  font-size: 2em;
+p {
+  color: #6c757d;
 }
 
 .snippets-box {
@@ -294,7 +312,7 @@ h1 {
 
 .alert {
   margin-top: 100px; /* Adjust this value as needed */
-  color: red; /* Optional: Set the text color for alerts */
+  color:black; /* Optional: Set the text color for alerts */
   z-index: 1000;
 }
 

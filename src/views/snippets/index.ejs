@@ -1,12 +1,13 @@
-<from class="login-container">
+<from class="listSnippets-container">
             <h1>Snippets</h1>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Snippet</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
+            <div class="snippets-list">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Snippet</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
                 <tbody>
                     <% if (viewData?.snippets?.length) { %>
                         <% for (const snippet of viewData.snippets) { %>
@@ -29,5 +30,6 @@
                     <% } %>
                 </tbody>
             </table>
+        </div>
         </div>
 </from>
