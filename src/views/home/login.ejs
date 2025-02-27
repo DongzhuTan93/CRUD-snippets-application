@@ -1,6 +1,5 @@
-<from>
+<div class="content-wrapper">
     <% if (typeof user === 'undefined') { %>
-    <div class="content-wrapper">
         <div class="login-container">
             <p class="have-account">Have an account?</p>
             <h1>Login</h1>
@@ -18,15 +17,14 @@
                         <input type="checkbox" name="remember">
                         <span>Remember Me</span>
                     </label>
-                    <a href="#" class="forgot-password">Forgot password?</a>
                 </div>
             </form>
-  <% } %>
-      <% if (typeof user !== 'undefined') { %>
-        <h2 >
-          Welcome  "<%= user.username %>" to our snippets!
-        </h2>
-      <% } %>
         </div>
-    </div>
-</from>
+        <a href="/" class="login-nav">Not a member? Sign up</a>
+    <% } %>
+    <% if (typeof user !== 'undefined') { %>
+        <h2>
+            Welcome "<%= user.username %>" to our snippets!
+        </h2>
+    <% } %>
+</div>

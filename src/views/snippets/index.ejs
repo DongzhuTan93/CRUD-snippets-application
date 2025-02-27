@@ -1,35 +1,35 @@
-<from class="listSnippets-container">
-            <h1>Snippets</h1>
-            <div class="snippets-list">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Snippet</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                <tbody>
-                    <% if (viewData?.snippets?.length) { %>
-                        <% for (const snippet of viewData.snippets) { %>
-                            <tr>
-                                <td class="w-100 <% if (snippet.done) { %> text-muted <% } %>">
-                                    <%- snippet.description.replace(/\n/g, '<br>') %>
-                                </td>
-                                <td class="text-nowrap">
-                                    <a href="/snippets/<%= snippet.id %>/update" class="btn btn-update">Update</a>
-                                    <a href="/snippets/<%= snippet.id %>/delete" class="btn btn-delete">Delete</a>
-                                </td>
-                            </tr>
-                        <% } %>
-                    <% } else { %>
-                        <tr>
-                            <td colspan="2" class="content-wrapper">
-                                There are no snippets to display!
-                            </td>
-                        </tr>
+<div class="content-wrapper">
+    <div class="snippets-container">
+      <h1>Snippets</h1>
+      
+      <% if (viewData.snippets.length === 0) { %>
+        <div class="empty-message">
+          There are no snippets to display!
+        </div>
+      <% } else { %>
+        <table class="snippets-table">
+          <thead>
+            <tr>
+              <th>Snippet</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% viewData.snippets.forEach(snippet => { %>
+              <tr>
+                <td><%= snippet.description %></td>
+                <td>
+                  <div class="action-buttons">
+                    <% if (viewData.authorized && viewData.userId === snippet.userId) { %>
+                      <a href="/snippets/<%= snippet.id %>/update" class="btn-action btn-edit">Edit</a>
+                      <a href="/snippets/<%= snippet.id %>/delete" class="btn-action btn-delete">Delete</a>
                     <% } %>
-                </tbody>
-            </table>
-        </div>
-        </div>
-</from>
+                  </div>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      <% } %>
+    </div>
+  </div>

@@ -1,25 +1,23 @@
-<from>
-    <div class="content-wrapper">
-        <div class="login-container">
-                <p class="have-account">Register to create snippets!</p>
-                <h1>Register</h1>
-                <form method="POST" action="/account/register">
-                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                    <div class="input-group">
-                        <input type="text" id="username" name="username" placeholder="Username">
-                    </div>
-                    <div class="input-group">
-                        <input type="password" id="password" name="password" placeholder="Password (At least 10 characters)">
-                    </div>
-                    <button type="submit" class="login-btn">Register</button>
-                    <div class="form-footer">
-                        <label class="remember-me">
-                            <input type="checkbox" name="remember">
-                            <span>Remember Me</span>
-                        </label>
-                    </div>
-                </form>
-        </div>
-        <div><a href="/account/login" class="login-nav">Already member? Click here to login >></a></div>
+<div class="content-wrapper">
+    <div class="login-container">
+        <p class="have-account">Join our community</p>
+        <h1>Create an Account</h1>
+        <form method="POST" action="/account/register">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <div class="input-group">
+                <input type="text" id="username" name="username" placeholder="Username">
+            </div>
+            <div class="input-group">
+                <input type="password" id="password" name="password" placeholder="Password (At least 10 characters)">
+            </div>
+            <button type="submit" class="login-btn">Get Started</button>
+            <div class="form-footer">
+                <label class="remember-me">
+                    <input type="checkbox" name="remember">
+                    <span>Remember Me</span>
+                </label>
+            </div>
+        </form>
     </div>
-</from>
+    <a href="/account/login" class="login-nav">Already a member? Sign in</a>
+</div>
